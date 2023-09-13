@@ -23,7 +23,6 @@ obj(k) = norm(X-omega*X,'fro')^2 + lambda*sum((sqrt(sum(omega.^2)))) + eta * tra
 Niter = 100;
 
 while delta > 10^-5
-    tic
     diag_W = 0.5 * (sqrt(sum(omega.^2)+eps)).^(-1);
     W = diag(diag_W);
     iD = diag(1./(lambda*diag_W + 0.01));
@@ -42,7 +41,6 @@ while delta > 10^-5
     if k > Niter
         break
     end
-    toc
 
 end
 
