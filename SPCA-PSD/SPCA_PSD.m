@@ -1,10 +1,13 @@
-function [ omega,id , obj ] = SPCA_PSD( X , lambda, eta)
+function [ omega, id , obj ] = SPCA_PSD( X , lambda, eta)
 % Fast Sparse PCA via Positive Semidefinite Projection for Unsupervised
 % Feature selection
 
 % X: data matrix, each column is a sample
 % lambda: the regularization parameter for l2,1-norm
 % eta: the regularization parameter for nuclear norm
+% omega: The reconstruction matrix
+% id: The rank of features
+% obj: The objective function value
 
 [ d , n ] = size( X );
 Id = eye(d);
