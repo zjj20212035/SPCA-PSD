@@ -1,7 +1,10 @@
-function [ id,LP ] = AW_SPCA_PSD( X,lambda )
+function [ id,OBJ ] = AW_SPCA_PSD( X,lambda )
 % Adaptive Weighted Sparse Principal Component Analysis with PSD constraint
 % X: data matrix, each column is a sample
 % lambda: the regularization parameter for l2,1-norm
+% id: The rank of features
+% OBJ: The objective function value
+
 [m,n] = size(X);
 X = X - repmat(mean(X,2),1,n);
 v = zeros( m , 1 );
@@ -13,7 +16,7 @@ I = eye(m);
 
 delta = inf;
 k=1;
-LP = zeros(1,50);
+OBJ = zeros(1,50);
 DELTA = zeros(1,100);
 Niter = 100;
 
@@ -25,12 +28,12 @@ while delta > 10^-5
     W1 = diag( 1./( 2 * sqrt( sum(( X - A*X - v*one' ).^2 ) + 0.001) ) );
     W2 = diag( 1./( 2 * sqrt( sum( A .^2 ) + 0.001) ) );
     E1 = X*W1*X';
-    Lp = norm( sqrt( sum(( X - A*X - v*one' ).^2 ) ), 1) + lambda * norm( sqrt( sum( A.^2 ) ), 1);
+    obj = norm( sqrt( sum(( X - A*X - v*one' ).^2 ) ), 1) + lambda * norm( sqrt( sum( A.^2 ) ), 1);
     if k == 1
-        LP(1) = Lp;
+        OBJ(1) = obj;
     else
-        LP(k) = Lp;
-        delta = abs(LP(k) - LP(k-1));
+        OBJ(k) = obj;
+        delta = abs(OBJ(k) - OBJ(k-1));
         DELTA(k-1) = delta;
     end
     
