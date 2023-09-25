@@ -2,7 +2,7 @@
 Codes for SPCA-PSD, CSPCA-PSD and AW-SPCA-PSD referring to "Fast Sparse PCA via Positive Semidefinite Projection for Unsupervised Feature Selection"
 % ========================================================================
 % Fast SPCA via Positive Semidefinite Projection, Version 1.0
-% Copyright(c) 2014 J. Zheng etl. 
+% Copyright(c) 2023 J. Zheng etl. 
 % All Rights Reserved.
 % 
 % ----------------------------------------------------------------------
