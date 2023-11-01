@@ -1,6 +1,6 @@
-% Clustering experiment on SPCA-PSD, CSPCA-PSD and AW-SPCA-PSD
+% Clustering experiment
 clear
-data_name = 'pie';
+data_name = 'pie_normalized';
 load([pwd,'/',data_name,'.mat']);
 X = X';
 [nFea,nSamp] = size(X);
@@ -50,7 +50,7 @@ if  ~isempty(find(chosen_method == "SPCA-PSD", 1)) || ~isempty(find(chosen_metho
                 [Acc_SPCA_PSD{i2,i3},Nmi_SPCA_PSD{i2,i3},Std_Acc_SPCA_PSD{i2,i3},Std_Nmi_SPCA_PSD{i2,i3}] = Evaluation(X,label,id_SPCA_PSD,features(i3),class_num,N);
             end
 
-            disp([num2str(i1),' and ', num2str(i2), ' SPCA-PSD ', data_name ,' ',num2str(TIME_SPCA_PSD(i1,i2))])
+            disp(['para1=',num2str(para1(i1)),' and ', 'para2=', num2str(para2(i2)), ' SPCA-PSD ', data_name ,' ',num2str(TIME_SPCA_PSD(i1,i2)), ' seconds'])
             save(save_path);
         end
         ACC_SPCA_PSD{i1} = cell2mat(Acc_SPCA_PSD);
@@ -84,9 +84,12 @@ if  ~isempty(find(chosen_method == "SPCA-PSD", 1)) || ~isempty(find(chosen_metho
     end
     opp2_SPCA_PSD = para2(index);
     [nmi_SPCA_PSD,~] = max(temp_nmi,[],1);
+    disp(['the best ACC of SPCA-PSD with ', '(',num2str(features), ')',' features: ', num2str(acc_SPCA_PSD)]);
+    disp(['the best NMI of SPCA-PSD with ','(', num2str(features), ')',' features: ', num2str(nmi_SPCA_PSD)]);
     disp('SPCA-PSD finished');
     save(save_path);
 end
+
 
 if  ~isempty(find(chosen_method == "All features", 1))  || ~isempty(find(chosen_method == "All", 1))
     ACC_All_Feature = cell(1,N);
@@ -125,7 +128,7 @@ if  ~isempty(find(chosen_method == "AW-SPCA-PSD", 1)) || ~isempty(find(chosen_me
             [ACC_AW_SPCA_PSD{i1,i2},NMI_AW_SPCA_PSD{i1,i2},STD_ACC_AW_SPCA_PSD{i1,i2},STD_NMI_AW_SPCA_PSD{i1,i2}] = Evaluation(X,label,id_AW_SPCA_PSD,features(i2),class_num,N);
         end
 
-        disp([num2str(i1),' AW-SPCA-PSD ', data_name,' ',num2str(TIME_AW_SPCA_PSD(i1))])
+        disp(['para1=',num2str(para1(i1)),' AW-SPCA-PSD ', data_name,' ',num2str(TIME_AW_SPCA_PSD(i1)),' seconds'])
         save(save_path);
     end
     temp_acc = cell2mat(ACC_AW_SPCA_PSD);
@@ -133,6 +136,8 @@ if  ~isempty(find(chosen_method == "AW-SPCA-PSD", 1)) || ~isempty(find(chosen_me
     [acc_AW_SPCA_PSD,op_AW_SPCA_PSD] = max(temp_acc,[],1);
     opp_AW_SPCA_PSD = para1(op_AW_SPCA_PSD);
     [nmi_AW_SPCA_PSD,~] = max(temp_nmi,[],1);
+    disp(['the best ACC of AW-SPCA-PSD with ','(', num2str(features), ')',' features: ', num2str(acc_SPCA_PSD)]);
+    disp(['the best NMI of AW-SPCA-PSD with ', '(',num2str(features), ')',' features: ', num2str(nmi_SPCA_PSD)]);
     disp('AW-SPCA-PSD finished');
     save(save_path);
 end
@@ -165,7 +170,7 @@ if  ~isempty(find(chosen_method == "CSPCA-PSD", 1)) || ~isempty(find(chosen_meth
             parfor i3 = 1:length(features)
                 [Acc_CSPCA_PSD{i2,i3},Nmi_CSPCA_PSD{i2,i3},Std_Acc_CSPCA_PSD{i2,i3},Std_Nmi_CSPCA_PSD{i2,i3}] = Evaluation(X,label,id_CSPCA_PSD,features(i3),class_num,N);
             end
-            disp([num2str(i1),' and ', num2str(i2), ' CSPCA_PSD ', data_name,' ',num2str(TIME_CSPCA_PSD(i1,i2))])
+            disp(['para1=',num2str(para1(i1)),' and ', 'para2=', num2str(para2(i2)),' CSPCA_PSD ', data_name,' ',num2str(TIME_CSPCA_PSD(i1,i2)),' seconds'])
             save(save_path);
         end
         ACC_CSPCA_PSD{i1} = cell2mat(Acc_CSPCA_PSD);
@@ -199,6 +204,8 @@ if  ~isempty(find(chosen_method == "CSPCA-PSD", 1)) || ~isempty(find(chosen_meth
     end
     opp2_CSPCA_PSD = para2(index);
     [nmi_CSPCA_PSD,~] = max(temp_nmi,[],1);
+    disp(['the best ACC of CSPCA-PSD with ','(', num2str(features), ')',' features: ', num2str(acc_SPCA_PSD)]);
+    disp(['the best NMI of CSPCA-PSD with ', '(', num2str(features), ')', ' features: ', num2str(nmi_SPCA_PSD)]);
     disp('CSPCA-PSD finished');
     save(save_path);
 end
@@ -214,8 +221,8 @@ if  ~isempty(find(chosen_method == "All features", 1))  || ~isempty(find(chosen_
     end
 ACC_All_Feature = repmat(mean(cell2mat(ACC_All_Feature)),[1,length(features)]);
 NMI_All_Feature = repmat(mean(cell2mat(NMI_All_Feature)),[1,length(features)]);
-STD_ACC_All_Feature = std(ACC_All_Feature);
-STD_NMI_All_Feature = std(NMI_All_Feature);
+disp(['ACC with all features: ', num2str(ACC_All_Feature(1))]);
+disp(['NMI with all features: ', num2str(NMI_All_Feature(1))]);
 save(save_path);
 end
 
