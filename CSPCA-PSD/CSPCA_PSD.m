@@ -25,7 +25,7 @@ while delta > 10^-5
         obj = norm(sqrt(sum(E.^2,2)),1) + alpha * norm(sqrt(sum(W.^2,2)),1) + beta * nuclear_norm;
         OBJ(1) = obj;
     end
-    W = (X*D1*X' + alpha*D2 + 0.001*I)\(X*D1*X'-beta*I);
+    W = (X*D1*X' + alpha*D2 + 0.001*I)\(X*D1*X'-beta/2*I);
     W = Keep_PSD(W);
     E = (W.'*X-X)';
     D1 = diag(1./(2*sqrt(sum(E.^2,2)+0.001)));
